@@ -1,0 +1,17 @@
+#login
+{
+    position:relative;
+    top:40vh;
+    background: #fff;
+    border-radius: 2px;
+    display: inline-block;
+    height: 40vh;
+    margin: 1rem;
+    width: 60vw;
+    box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+.customInput
+{
+    width:600px;
+}
+/*height:350 px width 700px*/

@@ -30,3 +30,21 @@
     transform: rotate(360deg);
   }
 }
+
+#redDiv
+{
+  width:100vw;
+  height:100vh;
+  background: linear-gradient(to bottom, #ed1b2b 50%, #f3f3f3 50%);
+}
+
+#logo
+{
+  position:absolute;
+  max-width: 10%;
+  /*width:10vw;*/
+  height:auto;
+  top: 16vh;
+}
+
+
