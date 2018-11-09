@@ -3,12 +3,14 @@ import './Login.css';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+
+
 class Login extends React.Component {
     constructor(props){
         super(props);
         this.state={
-            username:'Test',
-            password:'1234'
+            username:'',
+            password:''
         }
     }
     render() {
@@ -16,28 +18,30 @@ class Login extends React.Component {
             <div id="login">
                 <MuiThemeProvider>
                     <div>
-                        <h2>Login</h2>
+                        <h3 class="loginTitle">Login</h3>
+                        <p className="loginStory">
+                            Pentru a putea folosit platforma, va rugam sa va logati.
+                        </p>
                         <TextField
-                            style ={{width: '95%'}}
-                            placeholder="Nume utilizator"
+                            style ={styles.textfield}
+                            multiLine={true}
+                            error
+                            inputStyle={{ backgroundColor: 'red' }}
                             label="Nume utilizator"
                             onChange = {(event,newValue) => this.setState({username:newValue})}
                         />
                         <br/>
                         <TextField
-                            style ={{width: '95%'}}
+                            style ={{width: '90%' , color: 'red'}}
+                            error
                             type="password"
-                            placeholder="Parola"
                             label="Parola"
                             onChange = {(event,newValue) => this.setState({password:newValue})}
                         />
                         <br/>
-                        <Button label="Submit" color="primary" variant="contained" style={style} onClick={(event) => this.handleClick(event)}>
-                            Submit
+                        <Button id="loginButton" label="Submit" color="primary" variant="contained" style={style} onClick={(event) => this.handleClick(event)}>
+                            Login
                         </Button>
-                        {/*<Button variant="contained" color="primary" className={classes.button}>*/}
-                            {/*Primary*/}
-                        {/*</Button>*/}
                     </div>
                 </MuiThemeProvider>
             </div>
@@ -47,5 +51,12 @@ class Login extends React.Component {
 const style = {
     margin: 15,
 };
+
+const styles = {
+    textfield:{
+        width:'90%',
+        color: 'red',
+}
+}
 export default Login;
 
