@@ -4,6 +4,7 @@ import './Login.css';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import strings from '../res/strings'
+import { Redirect, BrowserRouter, Switch, Route } from 'react-router-dom';
 
 class Login extends React.Component {
     constructor(props){
@@ -14,12 +15,14 @@ class Login extends React.Component {
             usernameValid: false,
             passwordValid: false,
             errorUsername : '',
-            errorPassword : ''
+            errorPassword : '',
+            redirectToPreviousRoute: false,
         }
     }
     //Tests if username and password match and redirects to the calendar page
     handleSubmit = (event) =>{
         console.log("this.validate() : ",this.validate());
+        this.setState({ redirectToPreviousRoute: true });
         //Call the backend api and check if username and password match
 
     };
@@ -40,8 +43,7 @@ class Login extends React.Component {
             this.setState(() => ({
                 [target] : newValue,
             }));
-    //        target
-    }
+    };
     validate = () =>{
         let usernameCheck = this.check(this.state.username);
         let passwordCheck = this.check(this.state.password);
@@ -64,7 +66,15 @@ class Login extends React.Component {
     };
 
     render() {
+        // const { from } = this.props.location.state || { from: { pathname: "/" } };
+        const { from } = {from: { pathname: "/calendar" }}
+        const { redirectToPreviousRoute } = this.state;
+
+        if (redirectToPreviousRoute) {
+            return <Redirect to={from} />;
+        }
         return (
+            <div id="background">
             <div id="login">
                     <div>
                         <h3 className="loginTitle">{strings.login.title}</h3>
@@ -94,6 +104,8 @@ class Login extends React.Component {
                             {strings.login.button}
                         </Button>
                     </div>
+            </div>
+                <img src={require('../res/images/donorium.png')} alt="Logo" id="logo"/>
             </div>
         );
     }

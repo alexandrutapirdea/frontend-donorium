@@ -1,3 +1,10 @@
+#background
+{
+    width:100vw;
+    height:100vh;
+    background: linear-gradient(to top, #f3f3f3 70%, #ed1b2b 30%);
+}
+
 #login
 {
     position:relative;
