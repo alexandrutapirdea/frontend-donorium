@@ -3,21 +3,11 @@ import { Redirect, BrowserRouter, Switch, Route } from 'react-router-dom';
 import Login from "./components/Login";
 import Calendar from "./components/Calendar";
 import './App.css'
-export const AuthService = {
-    isAuthenticated: false,
-    // authenticate(cb) {
-    //     this.isAuthenticated = true;
-    //     setTimeout(cb, 100)
-    // },
-    // logout(cb) {
-    //     this.isAuthenticated = false;
-    //     setTimeout(cb, 100)
-    // }
-};
+import AppliedRoute from "./components/AppliedRoute" ;
 
-const SecretRoute = ({ component: Component, ...rest }) => (
+const SecretRoute = ({ component: Component, auth : auth, ...rest }) => (
     <Route {...rest} render={(props) => (
-        AuthService.isAuthenticated === true
+        auth.isAuthenticated === true
             ? <Component {...props} />
             : <Redirect to={{
                 pathname: '/login',
@@ -32,9 +22,9 @@ class Routes extends Component {
             <div className="App">
                 <BrowserRouter>
                     <Switch>
-                        <Route path="/" exact component={Login} />
-                        <Route path="/login" exact component={Login} />
-                        <SecretRoute path="/calendar" exact component={Calendar} />
+                        <AppliedRoute path="/" exact component={Login} props={this.props.childProps}/>
+                        <AppliedRoute path="/login" exact component={Login} props={this.props.childProps}/>
+                        <SecretRoute path="/calendar" exact component={Calendar} auth={this.props.childProps}/>
                     </Switch>
                 </BrowserRouter>
             </div>

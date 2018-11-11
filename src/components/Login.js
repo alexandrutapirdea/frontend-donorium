@@ -4,52 +4,61 @@ import './Login.css';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import strings from '../res/strings'
-import { Redirect, BrowserRouter, Switch, Route } from 'react-router-dom';
+import {Redirect, BrowserRouter, Switch, Route} from 'react-router-dom';
 
 class Login extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
-            username:'',
-            password:'',
+            username: '',
+            password: '',
             usernameValid: false,
             passwordValid: false,
-            errorUsername : '',
-            errorPassword : '',
-            redirectToPreviousRoute: false,
+            errorUsername: '',
+            errorPassword: '',
+            auth: false,
         }
     }
+
     //Tests if username and password match and redirects to the calendar page
-    handleSubmit = (event) =>{
-        console.log("this.validate() : ",this.validate());
-        this.setState({ redirectToPreviousRoute: true });
+    handleSubmit = (event) => {
+        event.preventDefault();
+        console.log("this.validate() : ", this.validate());
+        console.log("this.props",this.props);
+        console.log("this.props.childProps",this.props.childProps);
+        this.props.userHasAuthenticated(true);
+        if(this.validate()) {
+            this.setState({
+                auth: true
+            });
+        }
         //Call the backend api and check if username and password match
 
     };
-    check = (value)=>{
-        if ( value === '' || value === null || typeof(value) === undefined)
-        return false;
+    check = (value) => {
+        if (value === '' || value === null || typeof(value) === undefined)
+            return false;
 
         return true;
 
-}
-    setError = (value,target) =>{
+    }
+    setError = (value, target) => {
         let newValue = null;
         console.log(target);
-        if(value === false)
+        if (value === false)
             newValue = strings.login[target];
         else
             newValue = '';
-            this.setState(() => ({
-                [target] : newValue,
-            }));
+        this.setState(() => ({
+            [target]: newValue,
+        }));
     };
-    validate = () =>{
+    validate = () => {
         let usernameCheck = this.check(this.state.username);
         let passwordCheck = this.check(this.state.password);
         this.setState(() => ({
-            usernameValid : usernameCheck,
-            passwordValid : passwordCheck,
+            usernameValid: usernameCheck,
+            passwordValid: passwordCheck,
         }));
         this.setError(usernameCheck, 'errorUsername');
         this.setError(passwordCheck, 'errorPassword');
@@ -59,23 +68,20 @@ class Login extends React.Component {
     //Sets state for username and password ( after a key is pressed )
     handleInputChange = (event) => {
         this.setState({
-        [event.target.id]: event.target.value,
-            error : event.target.value,
+                [event.target.id]: event.target.value,
+                error: event.target.value,
             }
         )
     };
 
     render() {
-        // const { from } = this.props.location.state || { from: { pathname: "/" } };
-        const { from } = {from: { pathname: "/calendar" }}
-        const { redirectToPreviousRoute } = this.state;
-
-        if (redirectToPreviousRoute) {
-            return <Redirect to={from} />;
+        if (this.state.auth) {
+            return <Redirect to="../calendar" />;
         }
+
         return (
             <div id="background">
-            <div id="login">
+                <div id="login">
                     <div>
                         <h3 className="loginTitle">{strings.login.title}</h3>
                         <p className="loginStory">
@@ -83,40 +89,42 @@ class Login extends React.Component {
                         </p>
                         <TextField
                             id="username"
-                            style ={styles.textfield}
+                            style={styles.textfield}
                             error
                             label="Nume utilizator"
-                            onChange = {this.handleInputChange}
+                            onChange={this.handleInputChange}
                             helperText={this.state.errorUsername}
                         />
                         <br/>
                         <TextField
                             id="password"
-                            style ={styles.textfield}
+                            style={styles.textfield}
                             error
                             type="password"
                             label="Parola"
-                            onChange = {this.handleInputChange}
+                            onChange={this.handleInputChange}
                             helperText={this.state.errorPassword}
                         />
                         <br/>
-                        <Button id="loginButton" label="Submit" color="primary" variant="contained"  onClick={this.handleSubmit}>
+                        <Button id="loginButton" label="Submit" color="primary" variant="contained"
+                                onClick={this.handleSubmit}>
                             {strings.login.button}
                         </Button>
                     </div>
-            </div>
+                </div>
                 <img src={require('../res/images/donorium.png')} alt="Logo" id="logo"/>
             </div>
         );
     }
 }
+
 //Style TextField component
 
 const styles = {
-    textfield:{
-        width:'90%',
+    textfield: {
+        width: '90%',
         color: 'red',
-}
+    }
 };
 
 export default Login;
