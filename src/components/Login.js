@@ -8,30 +8,57 @@ import strings from '../res/strings'
 class Login extends React.Component {
     constructor(props){
         super(props);
-        this.state={
+        this.state = {
             username:'',
             password:'',
-            erros : [],
+            usernameValid: false,
+            passwordValid: false,
+            errorUsername : '',
+            errorPassword : ''
         }
     }
     //Tests if username and password match and redirects to the calendar page
     handleSubmit = (event) =>{
-        this.validate();
+        console.log("this.validate() : ",this.validate());
         //Call the backend api and check if username and password match
 
     };
-    validate = () =>{
-        if(this.state.username === '' || this.state.username === null || this.state.username === undefined)
-            this.setState({
-                    [event.target.id]: event.target.value
-                }
-            )
+    check = (value)=>{
+        if ( value === '' || value === null || typeof(value) === undefined)
+        return false;
+
+        return true;
+
+}
+    setError = (value,target) =>{
+        let newValue = null;
+        console.log(target);
+        if(value === false)
+            newValue = strings.login[target];
+        else
+            newValue = '';
+            this.setState(() => ({
+                [target] : newValue,
+            }));
+    //        target
     }
+    validate = () =>{
+        let usernameCheck = this.check(this.state.username);
+        let passwordCheck = this.check(this.state.password);
+        this.setState(() => ({
+            usernameValid : usernameCheck,
+            passwordValid : passwordCheck,
+        }));
+        this.setError(usernameCheck, 'errorUsername');
+        this.setError(passwordCheck, 'errorPassword');
+        return (this.state.usernameValid && this.state.passwordValid);
+    };
 
     //Sets state for username and password ( after a key is pressed )
     handleInputChange = (event) => {
         this.setState({
-        [event.target.id]: event.target.value
+        [event.target.id]: event.target.value,
+            error : event.target.value,
             }
         )
     };
@@ -50,6 +77,7 @@ class Login extends React.Component {
                             error
                             label="Nume utilizator"
                             onChange = {this.handleInputChange}
+                            helperText={this.state.errorUsername}
                         />
                         <br/>
                         <TextField
@@ -59,6 +87,7 @@ class Login extends React.Component {
                             type="password"
                             label="Parola"
                             onChange = {this.handleInputChange}
+                            helperText={this.state.errorPassword}
                         />
                         <br/>
                         <Button id="loginButton" label="Submit" color="primary" variant="contained"  onClick={this.handleSubmit}>
