@@ -1,12 +1,17 @@
 import React from 'react';
 import DayPicker from 'react-day-picker/DayPicker';
 import 'react-day-picker/lib/style.css';
-import './Login.css';
 import MomentLocaleUtils from 'react-day-picker/moment';
 import 'moment/locale/ro';
 import Switches from './Switches'
 import Button from '@material-ui/core/Button';
 import filters from '../res/filters'
+import SchedulerComponent from './Scheduler'
+
+// Scheduler
+import { ViewState, EditingState } from '@devexpress/dx-react-scheduler';
+import { Scheduler, DayView, Appointments, WeekView, MonthView, ViewSwitcher, Toolbar} from '@devexpress/dx-react-scheduler-material-ui';
+
 
 const language = "ro";
 
@@ -44,6 +49,29 @@ class Calendar extends React.Component {
                     <Switches key={Math.random()} filterName={filterName} checked={this.state.active}/>
                 )
                 }
+
+                {/*Scheduler*/}
+
+                {/*<Scheduler*/}
+                    {/*data={[*/}
+                        {/*{ startDate: '2018-11-02 10:00', endDate: '2018-11-02 11:00', title: 'Meeting 11' },*/}
+                        {/*{ startDate: '2018-12-03 10:00', endDate: '2018-12-03 11:00', title: 'Meeting 12' },*/}
+                    {/*]}*/}
+                {/*>*/}
+                    {/*<ViewState*/}
+                        {/*currentDate="2018-12-02"*/}
+                    {/*/>*/}
+                    {/*<MonthView/>*/}
+                    {/*<WeekView*/}
+                        {/*firstDayOfWeek ={1}*/}
+                        {/*startDayHour = {7}*/}
+                        {/*endDayHour = {14}/>*/}
+                    {/*<DayView/>*/}
+                    {/*<Appointments />*/}
+                    {/*<Toolbar />*/}
+                    {/*<ViewSwitcher />*/}
+                {/*</Scheduler>*/}
+                <SchedulerComponent/>
             </div>
         )
 
